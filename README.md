@@ -1,4 +1,7 @@
 # Allegient JavaScript Candidate Test Quote Service
+[![Build Status](https://travis-ci.org/allegient-labs/candidate-test-service.svg?branch=master)](https://travis-ci.org/allegient-labs/candidate-test-service)
+
+## What Is This?
 This is a simple web service that will return random price data for a given list of symbols.
 
 There is no checking to see if symbols are valid - any string is valid.  The service will return randomized price data for each symbol and the price will vary each time the service is called.
