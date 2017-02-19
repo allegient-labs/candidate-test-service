@@ -1,5 +1,6 @@
 # Allegient JavaScript Candidate Test Quote Service
 [![Build Status](https://travis-ci.org/allegient-labs/candidate-test-service.svg?branch=master)](https://travis-ci.org/allegient-labs/candidate-test-service)
+[![Coverage Status](https://coveralls.io/repos/github/allegient-labs/candidate-test-service/badge.svg?branch=master)](https://coveralls.io/github/allegient-labs/candidate-test-service?branch=master)
 
 ## What Is This?
 This is a simple web service that will return random price data for a given list of symbols.
