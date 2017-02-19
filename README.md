@@ -7,7 +7,7 @@ This is a SpringBoot application.  To run it:
 
 - Build with Maven (mvn clean install)
 - Start it with java -jar candidate-test-service-1.0.0-SNAPSHOT.jar
-- Test it in a browser with https://localhost:8080/quote?symbols=goog,aapl
+- Test it in a browser with http://localhost:8080/quote?symbols=goog,aapl
   
 Any number of symbols can be entered on the URL.
 
