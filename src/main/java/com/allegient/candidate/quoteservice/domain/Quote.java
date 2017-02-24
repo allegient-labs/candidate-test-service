@@ -18,11 +18,11 @@ package com.allegient.candidate.quoteservice.domain;
 public class Quote {
     private String symbol;
     private double lastTradePrice;
-    
+
     private Quote() {
         super();
     }
-    
+
     public String getSymbol() {
         return symbol;
     }
@@ -30,7 +30,7 @@ public class Quote {
     public double getLastTradePrice() {
         return lastTradePrice;
     }
-    
+
     public static Quote of(String symbol, double lastTradePrice) {
         Quote quote = new Quote();
         quote.symbol = symbol;

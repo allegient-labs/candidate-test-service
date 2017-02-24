@@ -23,28 +23,28 @@ import java.util.stream.Stream;
 
 public class QuoteList {
 
-	public static final String DISCLAIMER = "This service is for testing purposes only.  The information returned is randomly generated and does not represent true information.";
-	private Stream<Quote> quotes;
+    public static final String DISCLAIMER = "This service is for testing purposes only.  The information returned is randomly generated and does not represent true information.";
+    private Stream<Quote> quotes;
 
-	private QuoteList() {
-		super();
-	}
+    private QuoteList() {
+        super();
+    }
 
-	public String getDisclaimer() {
-		return DISCLAIMER;
-	}
+    public String getDisclaimer() {
+        return DISCLAIMER;
+    }
 
-	public String getGeneratedDate() {
-		return LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-	}
+    public String getGeneratedDate() {
+        return LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+    }
 
-	public List<Quote> getQuotes() {
-		return quotes.collect(Collectors.toList());
-	}
+    public List<Quote> getQuotes() {
+        return quotes.collect(Collectors.toList());
+    }
 
-	public static QuoteList from(Stream<Quote> quotes) {
-		QuoteList quoteList = new QuoteList();
-		quoteList.quotes = quotes;
-		return quoteList;
-	}
+    public static QuoteList from(Stream<Quote> quotes) {
+        QuoteList quoteList = new QuoteList();
+        quoteList.quotes = quotes;
+        return quoteList;
+    }
 }

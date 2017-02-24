@@ -43,7 +43,7 @@ public class IsValidDate extends TypeSafeMatcher<String> {
     protected void describeMismatchSafely(String item, Description mismatchDescription) {
         mismatchDescription.appendText(item + " is an invalid date");
     }
-    
+
     public static IsValidDate isValidDate() {
         return new IsValidDate();
     }

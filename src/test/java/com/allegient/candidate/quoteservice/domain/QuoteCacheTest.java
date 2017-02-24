@@ -32,25 +32,22 @@ public class QuoteCacheTest {
     @Test
     public void testThatCapacityIsNotExceeded() {
         int cacheCapacity = 25;
-        QuoteCache quoteCache = IntStream.rangeClosed(1, cacheCapacity * 2)
-        .mapToObj(this::quoteFromInt)
-        .collect(new QuoteCollector(cacheCapacity));
-        
+        QuoteCache quoteCache = IntStream.rangeClosed(1, cacheCapacity * 2).mapToObj(this::quoteFromInt)
+                .collect(new QuoteCollector(cacheCapacity));
+
         // make sure the capacity has not been exceeded
         assertThat(quoteCache.size(), is(cacheCapacity));
-        
+
         // make sure that only the newer items are in the cache
-        IntStream.rangeClosed(1, cacheCapacity)
-        .forEach(i -> {
+        IntStream.rangeClosed(1, cacheCapacity).forEach(i -> {
             assertThat(quoteCache.get("q" + i), is(nullValue()));
         });
 
-        IntStream.rangeClosed(cacheCapacity + 1, cacheCapacity *2)
-        .forEach(i -> {
+        IntStream.rangeClosed(cacheCapacity + 1, cacheCapacity * 2).forEach(i -> {
             assertThat(quoteCache.get("q" + i), is(notNullValue()));
         });
     }
-    
+
     private Quote quoteFromInt(int i) {
         return Quote.of("q" + i, ThreadLocalRandom.current().nextDouble());
     }

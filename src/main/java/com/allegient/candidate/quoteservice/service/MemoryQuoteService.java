@@ -25,23 +25,23 @@ import com.allegient.candidate.quoteservice.domain.QuoteList;
 
 public class MemoryQuoteService implements QuoteService {
 
-	@Autowired
-	private RandomizedQuoteDataSource dataSource;
+    @Autowired
+    private RandomizedQuoteDataSource dataSource;
 
-	private QuoteCache quotes = new QuoteCache(100);
+    private QuoteCache quotes = new QuoteCache(100);
 
-	@Override
-	public QuoteList get(Stream<String> symbols) {
-		Stream<Quote> quotes = symbols.map(this::get);
-		return QuoteList.from(quotes);
-	}
-    
+    @Override
+    public QuoteList get(Stream<String> symbols) {
+        Stream<Quote> quotes = symbols.map(this::get);
+        return QuoteList.from(quotes);
+    }
+
     @Override
     public Quote get(String symbol) {
         symbol = symbol.toUpperCase().trim();
 
         Optional<Quote> optionalQuote = quotes.optionalGet(symbol);
-		Quote quote = dataSource.retrieve(symbol, optionalQuote);
+        Quote quote = dataSource.retrieve(symbol, optionalQuote);
         quotes.put(symbol, quote);
 
         return quote;

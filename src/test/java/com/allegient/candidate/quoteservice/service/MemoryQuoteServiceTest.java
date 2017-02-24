@@ -31,22 +31,23 @@ public class MemoryQuoteServiceTest {
     @Test
     public void testThatPriceCantBeNegative() {
         double newPrice = RandomizedQuoteDataSource.calculateNewPrice(5, -10);
-        
+
         assertThat(newPrice, is(greaterThanOrEqualTo(0.0)));
         assertThat(newPrice, is(lessThanOrEqualTo(1.0)));
     }
-    
+
     @Test
     public void testInitialPriceAndIncrement() {
         MemoryQuoteService quoteService = new MemoryQuoteService();
-        
+
         Quote initialQuote = quoteService.get("goog");
         assertThat(initialQuote.getLastTradePrice(), is(greaterThanOrEqualTo(0.0)));
         assertThat(initialQuote.getLastTradePrice(), is(lessThanOrEqualTo(100.0)));
-        
+
         Quote subsequentQuote = quoteService.get("goog");
 
         assertThat(initialQuote.getLastTradePrice(), is(not(subsequentQuote.getLastTradePrice())));
-        assertThat(Math.abs(initialQuote.getLastTradePrice() - subsequentQuote.getLastTradePrice()), is(lessThanOrEqualTo(10.0)));
+        assertThat(Math.abs(initialQuote.getLastTradePrice() - subsequentQuote.getLastTradePrice()),
+                is(lessThanOrEqualTo(10.0)));
     }
 }

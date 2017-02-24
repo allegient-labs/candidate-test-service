@@ -27,12 +27,12 @@ import com.allegient.candidate.quoteservice.service.QuoteService;
 
 @RestController
 public class QuoteController {
-    
+
     @Autowired
     private QuoteService quoteService;
 
     @RequestMapping("/quote")
-    public QuoteList quote(@RequestParam(value="symbols") List<String> symbols) {
+    public QuoteList quote(@RequestParam(value = "symbols") List<String> symbols) {
         return quoteService.get(symbols.stream());
     }
 }

@@ -22,5 +22,6 @@ import com.allegient.candidate.quoteservice.domain.QuoteList;
 
 public interface QuoteService {
     Quote get(String symbol);
+
     QuoteList get(Stream<String> symbol);
 }

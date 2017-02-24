@@ -28,14 +28,14 @@ public class Application {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
-    
+
     @Bean
     public QuoteService quoteService() {
         return new MemoryQuoteService();
     }
-    
+
     @Bean
     public RandomizedQuoteDataSource quoteDataSource() {
-    	return new RandomizedQuoteDataSource();
+        return new RandomizedQuoteDataSource();
     }
 }

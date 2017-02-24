@@ -27,13 +27,13 @@ import com.allegient.candidate.quoteservice.domain.Quote;
 import com.allegient.candidate.quoteservice.service.QuoteCache;
 
 public class QuoteCollector implements Collector<Quote, QuoteCache, QuoteCache> {
-    
+
     private int cacheCapacity;
-    
+
     public QuoteCollector(int cacheCapacity) {
         this.cacheCapacity = cacheCapacity;
     }
-    
+
     @Override
     public Supplier<QuoteCache> supplier() {
         return () -> new QuoteCache(cacheCapacity);
@@ -43,7 +43,7 @@ public class QuoteCollector implements Collector<Quote, QuoteCache, QuoteCache> 
     public BiConsumer<QuoteCache, Quote> accumulator() {
         return (qc, q) -> qc.put(q.getSymbol(), q);
     }
-    
+
     @Override
     public BinaryOperator<QuoteCache> combiner() {
         return (left, right) -> {
@@ -51,7 +51,7 @@ public class QuoteCollector implements Collector<Quote, QuoteCache, QuoteCache> 
             return left;
         };
     }
-    
+
     @Override
     public Function<QuoteCache, QuoteCache> finisher() {
         return qc -> qc;

@@ -24,13 +24,10 @@ import com.allegient.candidate.quoteservice.domain.QuoteCacheTest;
 import com.allegient.candidate.quoteservice.service.MemoryQuoteServiceTest;
 
 @RunWith(Suite.class)
-@SuiteClasses({
-    MemoryQuoteServiceTest.class,
-    QuoteControllerTest.class,
-    QuoteCacheTest.class
-})
+@SuiteClasses({ MemoryQuoteServiceTest.class, QuoteControllerTest.class, QuoteCacheTest.class })
 /**
- * This class lets us run all the tests easily so we can verify coverage in Eclipse
+ * This class lets us run all the tests easily so we can verify coverage in
+ * Eclipse
  * 
  * @author Jeff Butler
  *
