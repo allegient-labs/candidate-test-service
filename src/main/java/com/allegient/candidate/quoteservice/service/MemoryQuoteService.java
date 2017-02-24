@@ -15,53 +15,35 @@
  */
 package com.allegient.candidate.quoteservice.service;
 
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.Optional;
+import java.util.stream.Stream;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.allegient.candidate.quoteservice.domain.Quote;
+import com.allegient.candidate.quoteservice.domain.QuoteList;
 
 public class MemoryQuoteService implements QuoteService {
-    
-    private QuoteCache quotes = new QuoteCache(100);
+
+	@Autowired
+	private RandomizedQuoteDataSource dataSource;
+
+	private QuoteCache quotes = new QuoteCache(100);
+
+	@Override
+	public QuoteList get(Stream<String> symbols) {
+		Stream<Quote> quotes = symbols.map(this::get);
+		return QuoteList.from(quotes);
+	}
     
     @Override
-    public Quote getQuote(String symbol) {
+    public Quote get(String symbol) {
         symbol = symbol.toUpperCase().trim();
-        Quote quote = quotes.get(symbol);
-        
-        if (quote == null) {
-            quote = Quote.of(symbol, initialPrice());
-        } else {
-            quote = Quote.of(symbol, calculateNewPrice(quote.getLastTradePrice(), increment()));
-        }
-        
+
+        Optional<Quote> optionalQuote = quotes.optionalGet(symbol);
+		Quote quote = dataSource.retrieve(symbol, optionalQuote);
         quotes.put(symbol, quote);
+
         return quote;
-    }
-    
-    /**
-     * @param oldPrice the previous price
-     * @return a new price based on adding a random increment to the previous price.  The new price
-     *   will never be less than 0
-     */
-    static double calculateNewPrice(double oldPrice, double increment) {
-        double newPrice = oldPrice + increment;
-        if (newPrice < 0) {
-            newPrice = ThreadLocalRandom.current().nextDouble();
-        }
-        return newPrice;
-    }
-    
-    /**
-     * @return a price between 0 and 100
-     */
-    private double initialPrice() {
-        return ThreadLocalRandom.current().nextDouble() * 100;
-    }
-    
-    /**
-     * @return an increment between -10 and 10
-     */
-    private double increment() {
-        return ThreadLocalRandom.current().nextDouble(20.0) - 10.0;
     }
 }

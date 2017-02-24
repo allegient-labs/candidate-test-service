@@ -23,16 +23,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.allegient.candidate.quoteservice.domain.QuoteList;
-import com.allegient.candidate.quoteservice.service.QuoteListService;
+import com.allegient.candidate.quoteservice.service.QuoteService;
 
 @RestController
 public class QuoteController {
     
     @Autowired
-    private QuoteListService quoteListService;
+    private QuoteService quoteService;
 
     @RequestMapping("/quote")
     public QuoteList quote(@RequestParam(value="symbols") List<String> symbols) {
-        return quoteListService.from(symbols);
+        return quoteService.get(symbols.stream());
     }
 }

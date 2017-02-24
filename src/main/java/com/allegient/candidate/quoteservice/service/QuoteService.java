@@ -15,8 +15,12 @@
  */
 package com.allegient.candidate.quoteservice.service;
 
+import java.util.stream.Stream;
+
 import com.allegient.candidate.quoteservice.domain.Quote;
+import com.allegient.candidate.quoteservice.domain.QuoteList;
 
 public interface QuoteService {
-    Quote getQuote(String symbol);
+    Quote get(String symbol);
+    QuoteList get(Stream<String> symbol);
 }

@@ -18,31 +18,33 @@ package com.allegient.candidate.quoteservice.domain;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class QuoteList {
-    
-    public static final String DISCLAIMER = "This service is for testing purposes only.  The information returned is randomly generated and does not represent true information.";
-    private List<Quote> quotes;
-    
-    private QuoteList() {
-        super();
-    }
 
-    public String getDisclaimer() {
-        return DISCLAIMER;
-    }
-    
-    public String getGeneratedDate() {
-        return LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-    }
-    
-    public List<Quote> getQuotes() {
-        return quotes;
-    }
-    
-    public static QuoteList from(List<Quote> quotes) {
-        QuoteList quoteList = new QuoteList();
-        quoteList.quotes = quotes;
-        return quoteList;
-    }
+	public static final String DISCLAIMER = "This service is for testing purposes only.  The information returned is randomly generated and does not represent true information.";
+	private Stream<Quote> quotes;
+
+	private QuoteList() {
+		super();
+	}
+
+	public String getDisclaimer() {
+		return DISCLAIMER;
+	}
+
+	public String getGeneratedDate() {
+		return LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+	}
+
+	public List<Quote> getQuotes() {
+		return quotes.collect(Collectors.toList());
+	}
+
+	public static QuoteList from(Stream<Quote> quotes) {
+		QuoteList quoteList = new QuoteList();
+		quoteList.quotes = quotes;
+		return quoteList;
+	}
 }

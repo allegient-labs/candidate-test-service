@@ -32,64 +32,60 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.allegient.candidate.quoteservice.app.Application;
 import com.allegient.candidate.quoteservice.domain.QuoteList;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes=Application.class)
+@SpringBootTest(classes = Application.class)
 @WebAppConfiguration
 public class QuoteControllerTest {
-    private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
-            MediaType.APPLICATION_JSON.getSubtype(),
-            Charset.forName("utf8"));
-    private MockMvc mockMvc;
-    
-    @Autowired
-    private WebApplicationContext webApplicationContext;
-    
-    @Before
-    public void setup() throws Exception {
-        this.mockMvc = webAppContextSetup(webApplicationContext).build();
-    }
-    
-    @Test
-    public void testNoParameter() throws Exception {
-        mockMvc.perform(get("/quote"))
-        .andExpect(status().is(400));
-    }
-    
-    @Test
-    public void testNoSymbols() throws Exception {
-        mockMvc.perform(get("/quote?symbols="))
-        .andExpect(status().is(200))
-        .andExpect(content().contentType(contentType))
-        .andExpect(jsonPath("$.disclaimer", is(QuoteList.DISCLAIMER)))
-        .andExpect(jsonPath("$.generatedDate", isValidDate()));
-    }
+	private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
+			MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
+	private MockMvc mockMvc;
 
-    @Test
-    public void testOneSymbol() throws Exception {
-        mockMvc.perform(get("/quote?symbols=goog"))
-        .andExpect(status().is(200))
-        .andExpect(content().contentType(contentType))
-        .andExpect(jsonPath("$.disclaimer", is(QuoteList.DISCLAIMER)))
-        .andExpect(jsonPath("$.generatedDate", isValidDate()))
-        .andExpect(jsonPath("$.quotes[0].symbol", is("GOOG")))
-        .andExpect(jsonPath("$.quotes[0].lastTradePrice", is(greaterThanOrEqualTo(0.0))));
-    }
+	@Autowired
+	private WebApplicationContext webApplicationContext;
 
-    @Test
-    public void testTwoSymbols() throws Exception {
-        mockMvc.perform(get("/quote?symbols=goog,aapl"))
-        .andExpect(status().is(200))
-        .andExpect(content().contentType(contentType))
-        .andExpect(jsonPath("$.disclaimer", is(QuoteList.DISCLAIMER)))
-        .andExpect(jsonPath("$.generatedDate", isValidDate()))
-        .andExpect(jsonPath("$.quotes[0].symbol", is("GOOG")))
-        .andExpect(jsonPath("$.quotes[0].lastTradePrice", is(greaterThanOrEqualTo(0.0))))
-        .andExpect(jsonPath("$.quotes[1].symbol", is("AAPL")))
-        .andExpect(jsonPath("$.quotes[1].lastTradePrice", is(greaterThanOrEqualTo(0.0))));
-    }
+	@Before
+	public void setup() throws Exception {
+		this.mockMvc = webAppContextSetup(webApplicationContext).build();
+	}
+
+	@Test
+	public void testNoParameter() throws Exception {
+		mockMvc.perform(get("/quote")).andExpect(status().is(400));
+	}
+
+	@Test
+	public void testNoSymbols() throws Exception {
+		mockMvc.perform(get("/quote?symbols=")).andExpect(status().is(200))
+				.andExpect(content().contentType(contentType))
+				.andExpect(jsonPath("$.disclaimer", is(QuoteList.DISCLAIMER)))
+				.andExpect(jsonPath("$.generatedDate", isValidDate()));
+	}
+
+	@Test
+	public void testOneSymbol() throws Exception {
+		mockMvc.perform(get("/quote?symbols=goog")).andExpect(status().is(200))
+				.andExpect(content().contentType(contentType))
+				.andExpect(jsonPath("$.disclaimer", is(QuoteList.DISCLAIMER)))
+				.andExpect(jsonPath("$.generatedDate", isValidDate()))
+				.andExpect(jsonPath("$.quotes[0].symbol", is("GOOG")))
+				.andExpect(jsonPath("$.quotes[0].lastTradePrice", is(greaterThanOrEqualTo(0.0))));
+	}
+
+	@Test
+	public void testTwoSymbols() throws Exception {
+		mockMvc.perform(get("/quote?symbols=goog,aapl")).andExpect(status().isOk())
+				.andExpect(content().contentType(contentType))
+				.andExpect(jsonPath("$.disclaimer", is(QuoteList.DISCLAIMER)))
+				.andExpect(jsonPath("$.generatedDate", isValidDate()))
+				.andExpect(jsonPath("$.quotes[0].symbol", is("GOOG")))
+				.andExpect(jsonPath("$.quotes[0].lastTradePrice", is(greaterThanOrEqualTo(0.0))))
+				.andExpect(jsonPath("$.quotes[1].symbol", is("AAPL")))
+				.andExpect(jsonPath("$.quotes[1].lastTradePrice", is(greaterThanOrEqualTo(0.0))));
+	}
 }

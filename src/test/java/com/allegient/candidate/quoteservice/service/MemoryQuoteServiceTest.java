@@ -18,7 +18,11 @@ package com.allegient.candidate.quoteservice.service;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
+import com.allegient.candidate.quoteservice.app.Application;
 import com.allegient.candidate.quoteservice.domain.Quote;
 import com.allegient.candidate.quoteservice.service.MemoryQuoteService;
 
@@ -26,7 +30,7 @@ public class MemoryQuoteServiceTest {
 
     @Test
     public void testThatPriceCantBeNegative() {
-        double newPrice = MemoryQuoteService.calculateNewPrice(5, -10);
+        double newPrice = RandomizedQuoteDataSource.calculateNewPrice(5, -10);
         
         assertThat(newPrice, is(greaterThanOrEqualTo(0.0)));
         assertThat(newPrice, is(lessThanOrEqualTo(1.0)));
@@ -34,13 +38,13 @@ public class MemoryQuoteServiceTest {
     
     @Test
     public void testInitialPriceAndIncrement() {
-        MemoryQuoteService mqs = new MemoryQuoteService();
+        MemoryQuoteService quoteService = new MemoryQuoteService();
         
-        Quote initialQuote = mqs.getQuote("goog");
+        Quote initialQuote = quoteService.get("goog");
         assertThat(initialQuote.getLastTradePrice(), is(greaterThanOrEqualTo(0.0)));
         assertThat(initialQuote.getLastTradePrice(), is(lessThanOrEqualTo(100.0)));
         
-        Quote subsequentQuote = mqs.getQuote("goog");
+        Quote subsequentQuote = quoteService.get("goog");
 
         assertThat(initialQuote.getLastTradePrice(), is(not(subsequentQuote.getLastTradePrice())));
         assertThat(Math.abs(initialQuote.getLastTradePrice() - subsequentQuote.getLastTradePrice()), is(lessThanOrEqualTo(10.0)));

@@ -20,7 +20,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import com.allegient.candidate.quoteservice.service.MemoryQuoteService;
-import com.allegient.candidate.quoteservice.service.QuoteListService;
+import com.allegient.candidate.quoteservice.service.RandomizedQuoteDataSource;
 import com.allegient.candidate.quoteservice.service.QuoteService;
 
 @SpringBootApplication
@@ -30,12 +30,12 @@ public class Application {
     }
     
     @Bean
-    public QuoteListService quoteListService() {
-        return new QuoteListService();
+    public QuoteService quoteService() {
+        return new MemoryQuoteService();
     }
     
     @Bean
-    public QuoteService quoteService() {
-        return new MemoryQuoteService();
+    public RandomizedQuoteDataSource quoteDataSource() {
+    	return new RandomizedQuoteDataSource();
     }
 }
