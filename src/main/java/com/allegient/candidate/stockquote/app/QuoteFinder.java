@@ -38,6 +38,6 @@ public class QuoteFinder {
 
     public Optional<Quote> find(String symbol) {
         symbol = symbol.toUpperCase().trim();
-        return Optional.of(dataSource.findLatest(symbol));
+        return Optional.ofNullable(dataSource.findLatest(symbol));
     }
 }
