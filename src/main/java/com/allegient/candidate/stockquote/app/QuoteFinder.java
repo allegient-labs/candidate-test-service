@@ -13,37 +13,28 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package com.allegient.candidate.quoteservice.service;
+package com.allegient.candidate.stockquote.app;
 
-import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.allegient.candidate.quoteservice.domain.Quote;
-import com.allegient.candidate.quoteservice.domain.QuoteList;
+import com.allegient.candidate.stockquote.datasource.QuoteDataSource;
+import com.allegient.candidate.stockquote.domain.Quote;
+import com.allegient.candidate.stockquote.domain.QuoteList;
 
-public class MemoryQuoteService implements QuoteService {
+public class QuoteFinder {
 
     @Autowired
-    private RandomizedQuoteDataSource dataSource;
+    QuoteDataSource dataSource;
 
-    private QuoteCache quotes = new QuoteCache(100);
-
-    @Override
-    public QuoteList get(Stream<String> symbols) {
-        Stream<Quote> quotes = symbols.map(this::get);
+    public QuoteList find(Stream<String> symbols) {
+        Stream<Quote> quotes = symbols.map(this::find);
         return QuoteList.from(quotes);
     }
 
-    @Override
-    public Quote get(String symbol) {
+    public Quote find(String symbol) {
         symbol = symbol.toUpperCase().trim();
-
-        Optional<Quote> optionalQuote = quotes.optionalGet(symbol);
-        Quote quote = dataSource.retrieve(symbol, optionalQuote);
-        quotes.put(symbol, quote);
-
-        return quote;
+        return dataSource.findLatest(symbol);
     }
 }

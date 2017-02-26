@@ -13,9 +13,9 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package com.allegient.candidate.quoteservice.app;
+package com.allegient.candidate.stockquote.http;
 
-import static com.allegient.candidate.quoteservice.testutil.IsValidDate.*;
+import static com.allegient.candidate.stockquote.testutil.IsValidDate.*;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -35,8 +35,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.allegient.candidate.quoteservice.app.Application;
-import com.allegient.candidate.quoteservice.domain.QuoteList;
+import com.allegient.candidate.stockquote.Application;
+import com.allegient.candidate.stockquote.domain.QuoteList;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)

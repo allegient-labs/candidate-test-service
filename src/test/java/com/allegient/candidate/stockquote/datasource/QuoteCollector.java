@@ -13,7 +13,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package com.allegient.candidate.quoteservice.domain;
+package com.allegient.candidate.stockquote.datasource;
 
 import java.util.EnumSet;
 import java.util.Set;
@@ -23,8 +23,8 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collector;
 
-import com.allegient.candidate.quoteservice.domain.Quote;
-import com.allegient.candidate.quoteservice.service.QuoteCache;
+import com.allegient.candidate.stockquote.datasource.QuoteCache;
+import com.allegient.candidate.stockquote.domain.Quote;
 
 public class QuoteCollector implements Collector<Quote, QuoteCache, QuoteCache> {
 

@@ -1,14 +1,21 @@
-package com.allegient.candidate.quoteservice.service;
+package com.allegient.candidate.stockquote.datasource;
 
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Supplier;
 
-import com.allegient.candidate.quoteservice.domain.Quote;
+import com.allegient.candidate.stockquote.domain.Quote;
 
-public class RandomizedQuoteDataSource {
+// call it RandomPriceGenerator and FakeQuoteGenerator
+// this package also needs it's own spring config class
+public class RandomizedQuoteDataSource implements QuoteDataSource {
 
-    public Quote retrieve(String symbol, Optional<Quote> lastValue) {
+    @Override
+    public Quote findLatest(String symbol) {
+        return findLatest(symbol, Optional.empty());
+    }
+
+    private Quote findLatest(String symbol, Optional<Quote> lastValue) {
         return lastValue.map(this::update).orElseGet(create(symbol));
     }
 
@@ -27,7 +34,7 @@ public class RandomizedQuoteDataSource {
      * @return a new price based on adding a random increment to the previous
      *         price. The new price will never be less than 0
      */
-    static double calculateNewPrice(double oldPrice, double increment) {
+    public static double calculateNewPrice(double oldPrice, double increment) {
         double newPrice = oldPrice + increment;
         if (newPrice < 0) {
             newPrice = ThreadLocalRandom.current().nextDouble();

@@ -13,28 +13,24 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package com.allegient.candidate.quoteservice.domain;
+package com.allegient.candidate.stockquote;
 
-public class Quote {
-    private String symbol;
-    private double lastTradePrice;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
 
-    private Quote() {
-        super();
-    }
+import com.allegient.candidate.stockquote.app.QuoteProviderTest;
+import com.allegient.candidate.stockquote.datasource.QuoteCacheTest;
+import com.allegient.candidate.stockquote.http.QuoteControllerTest;
 
-    public String getSymbol() {
-        return symbol;
-    }
-
-    public double getLastTradePrice() {
-        return lastTradePrice;
-    }
-
-    public static Quote of(String symbol, double lastTradePrice) {
-        Quote quote = new Quote();
-        quote.symbol = symbol;
-        quote.lastTradePrice = lastTradePrice;
-        return quote;
-    }
+@RunWith(Suite.class)
+@SuiteClasses({ QuoteProviderTest.class, QuoteControllerTest.class, QuoteCacheTest.class })
+/**
+ * This class lets us run all the tests easily so we can verify coverage in
+ * Eclipse
+ * 
+ * @author Jeff Butler
+ *
+ */
+public class RunAllTests {
 }
