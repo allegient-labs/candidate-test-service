@@ -51,6 +51,10 @@
       <artifactId>json-path</artifactId>
       <scope>test</scope>
     </dependency>
+    <dependency>
+    	<groupId>org.projectlombok</groupId>
+    	<artifactId>lombok</artifactId>
+    </dependency>
   </dependencies>
 
   <reporting>
@@ -135,6 +139,27 @@
         <artifactId>coveralls-maven-plugin</artifactId>
         <version>4.2.0</version>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <compilerVersion>1.6</compilerVersion>
+          <source>${maven.compiler.source}</source>
+          <target>${maven.compiler.target}</target>
+        </configuration>
+      </plugin>
+	  <plugin>
+	    <groupId>org.projectlombok</groupId>
+	    <artifactId>lombok-maven-plugin</artifactId>
+	    <executions>
+	      <execution>
+	        <phase>generate-sources</phase>
+	        <goals>
+	          <goal>delombok</goal>
+	        </goals>
+	      </execution>
+	    </executions>
+  	  </plugin>
     </plugins>
   </build>
 
