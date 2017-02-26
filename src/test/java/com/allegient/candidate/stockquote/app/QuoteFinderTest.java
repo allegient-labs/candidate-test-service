@@ -83,7 +83,7 @@ public class QuoteFinderTest {
         QuoteDataSource mock = Mockito.mock(QuoteDataSource.class);
 
         quotes.forEach(quote -> {
-            Mockito.when(mock.findLatest(quote.getSymbol())).thenReturn(quote);
+            Mockito.when(mock.findLatest(quote.getSymbol())).thenReturn(Optional.of(quote));
         });
 
         return mock;

@@ -31,13 +31,17 @@ public class QuoteFinder {
 
     public QuoteList find(Stream<String> symbols) {
         Stream<Optional<Quote>> optionalQuotes = symbols.map(this::find);
-        Stream<Quote> quotes = optionalQuotes.filter(Optional::isPresent).map(Optional::get);
+        Stream<Quote> quotes = removeEmpties(optionalQuotes);
 
         return QuoteList.from(quotes);
     }
 
     public Optional<Quote> find(String symbol) {
         symbol = symbol.toUpperCase().trim();
-        return Optional.ofNullable(dataSource.findLatest(symbol));
+        return dataSource.findLatest(symbol);
+    }
+
+    private <T> Stream<T> removeEmpties(Stream<Optional<T>> optionalQuotes) {
+        return optionalQuotes.filter(Optional::isPresent).map(Optional::get);
     }
 }

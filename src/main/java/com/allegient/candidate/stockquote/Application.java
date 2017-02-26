@@ -20,8 +20,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import com.allegient.candidate.stockquote.app.QuoteFinder;
-import com.allegient.candidate.stockquote.datasource.QuoteDataSource;
-import com.allegient.candidate.stockquote.datasource.RandomizedQuoteDataSource;
 
 @SpringBootApplication
 public class Application {
@@ -34,8 +32,4 @@ public class Application {
         return new QuoteFinder();
     }
 
-    @Bean
-    public QuoteDataSource quoteDataSource() {
-        return new RandomizedQuoteDataSource();
-    }
 }
