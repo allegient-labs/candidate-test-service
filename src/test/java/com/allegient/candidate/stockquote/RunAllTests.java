@@ -20,11 +20,10 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 import com.allegient.candidate.stockquote.app.QuoteFinderTest;
-import com.allegient.candidate.stockquote.datasource.QuoteCacheTest;
 import com.allegient.candidate.stockquote.http.QuoteControllerTest;
 
 @RunWith(Suite.class)
-@SuiteClasses({ QuoteFinderTest.class, QuoteControllerTest.class, QuoteCacheTest.class })
+@SuiteClasses({ QuoteFinderTest.class, QuoteControllerTest.class })
 /**
  * This class lets us run all the tests easily so we can verify coverage in
  * Eclipse

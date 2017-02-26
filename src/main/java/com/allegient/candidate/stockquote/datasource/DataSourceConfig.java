@@ -21,6 +21,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 
+import com.allegient.candidate.stockquote.domain.Quote;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
+
 @Configuration
 public class DataSourceConfig {
 
@@ -36,8 +40,8 @@ public class DataSourceConfig {
 
         @Bean
         @Scope("singleton")
-        public QuoteCache quoteCache() {
-            return new QuoteCache(CACHE_CAPACITY);
+        public Cache<String, Quote> quoteCache() {
+            return CacheBuilder.newBuilder().maximumSize(CACHE_CAPACITY).build();
         }
 
         @Bean

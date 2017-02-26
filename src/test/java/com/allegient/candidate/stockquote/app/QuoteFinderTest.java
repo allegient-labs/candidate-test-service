@@ -70,6 +70,7 @@ public class QuoteFinderTest {
 
         QuoteFinder finder = new QuoteFinder();
         finder.dataSource = mockDataSource(expectedQuotes.stream());
+        Mockito.when(finder.dataSource.findLatest("INVALID")).thenReturn(Optional.empty());
 
         QuoteList actualQuoteList = finder.find(Stream.of("fake1", "INVALID", "FAKE2"));
         assertThat(actualQuoteList.getQuotes(), equalTo(expectedQuotes));

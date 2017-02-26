@@ -22,6 +22,8 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import com.allegient.candidate.stockquote.domain.Quote;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 
 public class InMemoryDataSourceTest {
 
@@ -33,11 +35,11 @@ public class InMemoryDataSourceTest {
         Mockito.when(mockQuoter.create("FAKE")).thenReturn(expectedQuote);
 
         InMemoryDataSource dataSource = new InMemoryDataSource();
-        dataSource.cache = new QuoteCache(2);
+        dataSource.cache = CacheBuilder.newBuilder().maximumSize(2).build();
         dataSource.quoter = mockQuoter;
 
         assertThat(dataSource.findLatest("FAKE").get(), equalTo(expectedQuote));
-        assertThat(dataSource.cache.get("FAKE"), equalTo(expectedQuote));
+        assertThat(dataSource.cache.getIfPresent("FAKE"), equalTo(expectedQuote));
     }
 
     @Test
@@ -46,7 +48,7 @@ public class InMemoryDataSourceTest {
         Quote updatedQuote = Quote.of("FAKE", 2.0);
 
         // cache has seed data
-        QuoteCache cache = new QuoteCache(2);
+        Cache<String, Quote> cache = CacheBuilder.newBuilder().maximumSize(2).build();
         cache.put("FAKE", originalQuote);
 
         // quoter get seed data and returns updated data
@@ -59,7 +61,7 @@ public class InMemoryDataSourceTest {
 
         // both dataSource and cache return updated quote
         assertThat(dataSource.findLatest("FAKE").get(), equalTo(updatedQuote));
-        assertThat(cache.get("FAKE"), equalTo(updatedQuote));
+        assertThat(cache.getIfPresent("FAKE"), equalTo(updatedQuote));
     }
 
 }

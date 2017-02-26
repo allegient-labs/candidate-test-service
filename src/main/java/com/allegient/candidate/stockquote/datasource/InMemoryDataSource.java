@@ -21,11 +21,12 @@ import java.util.function.Supplier;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.allegient.candidate.stockquote.domain.Quote;
+import com.google.common.cache.Cache;
 
 public class InMemoryDataSource implements QuoteDataSource {
 
     @Autowired
-    QuoteCache cache;
+    Cache<String, Quote> cache;
 
     @Autowired
     FakeQuoteGenerator quoter;
@@ -37,11 +38,16 @@ public class InMemoryDataSource implements QuoteDataSource {
     }
 
     private Quote getFromCache(String symbol) {
-        Optional<Quote> optionalQuote = cache.optionalGet(symbol);
+        Optional<Quote> optionalQuote = optionalGet(symbol);
         Quote updateQuote = updateQuote(symbol, optionalQuote);
         cache.put(symbol, updateQuote);
 
         return updateQuote;
+    }
+
+    private Optional<Quote> optionalGet(String symbol) {
+        Quote nullableQuote = cache.getIfPresent(symbol);
+        return Optional.ofNullable(nullableQuote);
     }
 
     private Quote updateQuote(String symbol, Optional<Quote> optionalQuote) {
@@ -51,5 +57,4 @@ public class InMemoryDataSource implements QuoteDataSource {
     private Supplier<Quote> createQuote(String symbol) {
         return () -> quoter.create(symbol);
     }
-
 }
