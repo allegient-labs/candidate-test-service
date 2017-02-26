@@ -18,10 +18,13 @@ package com.allegient.candidate.stockquote;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
 
 import com.allegient.candidate.stockquote.app.QuoteFinder;
+import com.allegient.candidate.stockquote.datasource.DataSourceConfig;
 
 @SpringBootApplication
+@Import(DataSourceConfig.class)
 public class Application {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
@@ -31,5 +34,4 @@ public class Application {
     public QuoteFinder quoteFinder() {
         return new QuoteFinder();
     }
-
 }

@@ -19,7 +19,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-class RandomPriceGenerator {
+public class RandomPriceGenerator {
 
     @Autowired
     ThreadLocalRandom randomizer;
