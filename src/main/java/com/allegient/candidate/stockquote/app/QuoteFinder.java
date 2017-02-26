@@ -15,6 +15,7 @@
  */
 package com.allegient.candidate.stockquote.app;
 
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,12 +30,14 @@ public class QuoteFinder {
     QuoteDataSource dataSource;
 
     public QuoteList find(Stream<String> symbols) {
-        Stream<Quote> quotes = symbols.map(this::find);
+        Stream<Optional<Quote>> optionalQuotes = symbols.map(this::find);
+        Stream<Quote> quotes = optionalQuotes.filter(Optional::isPresent).map(Optional::get);
+
         return QuoteList.from(quotes);
     }
 
-    public Quote find(String symbol) {
+    public Optional<Quote> find(String symbol) {
         symbol = symbol.toUpperCase().trim();
-        return dataSource.findLatest(symbol);
+        return Optional.of(dataSource.findLatest(symbol));
     }
 }

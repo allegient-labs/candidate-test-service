@@ -20,6 +20,7 @@ import static org.junit.Assert.assertThat;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.junit.Test;
@@ -29,52 +30,52 @@ import com.allegient.candidate.stockquote.datasource.QuoteDataSource;
 import com.allegient.candidate.stockquote.domain.Quote;
 import com.allegient.candidate.stockquote.domain.QuoteList;
 
-public class QuoteProviderTest {
+public class QuoteFinderTest {
     @Test
     public void testGetSymbol() {
         Quote expectedQuote = Quote.of("FAKE", 111.11);
-        QuoteFinder finder = createFinderWith(expectedQuote);
+        QuoteFinder finder = new QuoteFinder();
+        finder.dataSource = mockDataSource(expectedQuote);
 
-        Quote actualQuote = finder.find("FAKE");
+        Optional<Quote> actualQuote = finder.find("FAKE");
 
-        assertThat(actualQuote, equalTo(expectedQuote));
+        assertThat(actualQuote.get(), equalTo(expectedQuote));
     }
 
     @Test
     public void testGetSymbolWithWhitespace() {
         Quote expectedQuote = Quote.of("FAKE", 111.11);
-        QuoteFinder finder = createFinderWith(expectedQuote);
+        QuoteFinder finder = new QuoteFinder();
+        finder.dataSource = mockDataSource(expectedQuote);
 
-        Quote actualQuote = finder.find("  fake  ");
+        Optional<Quote> actualQuote = finder.find("  fake  ");
 
-        assertThat(actualQuote, equalTo(expectedQuote));
+        assertThat(actualQuote.get(), equalTo(expectedQuote));
     }
 
     @Test
     public void testGetSymbolStream() {
         List<Quote> expectedQuotes = Arrays.asList(Quote.of("FAKE1", 11), Quote.of("FAKE2", 22));
-        QuoteFinder finder = createFinderWith(expectedQuotes.stream());
+        QuoteFinder finder = new QuoteFinder();
+        finder.dataSource = mockDataSource(expectedQuotes.stream());
 
         QuoteList actualQuoteList = finder.find(Stream.of("fake1", "FAKE2"));
 
         assertThat(actualQuoteList.getQuotes(), equalTo(expectedQuotes));
     }
 
-    private QuoteFinder createFinderWith(Quote quote) {
-        return createFinderWith(Stream.of(quote));
+    private QuoteDataSource mockDataSource(Quote quote) {
+        return mockDataSource(Stream.of(quote));
     }
 
-    private QuoteFinder createFinderWith(Stream<Quote> quotes) {
-        QuoteDataSource mockDataSource = Mockito.mock(QuoteDataSource.class);
+    private QuoteDataSource mockDataSource(Stream<Quote> quotes) {
+        QuoteDataSource mock = Mockito.mock(QuoteDataSource.class);
 
         quotes.forEach(quote -> {
-            Mockito.when(mockDataSource.findLatest(quote.getSymbol())).thenReturn(quote);
+            Mockito.when(mock.findLatest(quote.getSymbol())).thenReturn(quote);
         });
 
-        QuoteFinder finder = new QuoteFinder();
-        finder.dataSource = mockDataSource;
-
-        return finder;
+        return mock;
     }
 }
 
