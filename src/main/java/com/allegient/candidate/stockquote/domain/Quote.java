@@ -19,8 +19,15 @@ public class Quote {
     private String symbol;
     private double lastTradePrice;
 
-    private Quote() {
-        super();
+    public static Quote of(String symbol, double lastTradePrice) {
+        Quote quote = new Quote();
+        quote.symbol = symbol;
+        quote.lastTradePrice = lastTradePrice;
+        return quote;
+    }
+
+    public Quote update(double updatedPrice) {
+        return Quote.of(getSymbol(), updatedPrice);
     }
 
     public String getSymbol() {
@@ -31,10 +38,44 @@ public class Quote {
         return lastTradePrice;
     }
 
-    public static Quote of(String symbol, double lastTradePrice) {
-        Quote quote = new Quote();
-        quote.symbol = symbol;
-        quote.lastTradePrice = lastTradePrice;
-        return quote;
+    @Override
+    public int hashCode() {
+        long temp = Double.doubleToLongBits(lastTradePrice);
+
+        int result = 1;
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + ((symbol == null) ? 0 : symbol.hashCode());
+
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (obj == null) {
+            return false;
+        }
+
+        if (!(obj instanceof Quote)) {
+            return false;
+        }
+
+        Quote other = (Quote) obj;
+        if (Double.doubleToLongBits(lastTradePrice) != Double.doubleToLongBits(other.lastTradePrice)) {
+            return false;
+        }
+
+        if (symbol == null && other.symbol != null) {
+            return false;
+        }
+
+        if (symbol != null && !symbol.equals(other.symbol)) {
+            return false;
+        }
+
+        return true;
     }
 }
