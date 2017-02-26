@@ -9,11 +9,17 @@ There is no checking to see if symbols are valid - any string is valid.  The ser
 
 This is a SpringBoot application.  To run it:
 
-- Build with Maven (mvn clean install)
-- Start it with java -jar candidate-test-service-1.0.0-SNAPSHOT.jar
-- Test it in a browser with http://localhost:8080/quote?symbols=goog,aapl
+- Build using Maven with => `mvn clean install`
+- Start it with `java -jar candidate-test-service-1.0.0-SNAPSHOT.jar`
+- Test it in a browser with `http://localhost:8080/quote?symbols=goog,aapl`
   
 Any number of symbols can be entered on the URL.
 
 IMPORTANT DISCLAIMER: the data returned from this service is completely random and does not represent actual
 stock quotes in any way.
+
+## Troubleshooting
+
+* What to do if the project compiles/builds using Maven but shows errors in IDE?
+  * This is probably because Project Lombok integration with IDEs. Follow the IDE instruction at [this link](https://projectlombok.org/download.html).
+
