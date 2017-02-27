@@ -18,6 +18,15 @@ Any number of symbols can be entered on the URL.
 IMPORTANT DISCLAIMER: the data returned from this service is completely random and does not represent actual
 stock quotes in any way.
 
+## Docker
+*Copied from [this blog post](https://exampledriven.wordpress.com/2016/06/24/spring-boot-docker-example/)*
+
+- Install Docker Compose => https://docs.docker.com/compose/install/
+- `mvn clean install` to create docker images
+- `docker images` to confirm this app is available as an image in docker
+- `docker-compose up` to start the app
+- `http://localhost:8080/quote?symbols=goog,aapl` test in browser
+
 ## Troubleshooting
 
 * What to do if the project compiles/builds using Maven but shows errors in IDE?
