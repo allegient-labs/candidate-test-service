@@ -15,14 +15,74 @@
  */
 package com.allegient.candidate.stockquote.domain;
 
-import lombok.Value;
-
-@Value(staticConstructor="of")
 public class Quote {
     private final String symbol;
     private final double lastTradePrice;
 
+    public static Quote of(String symbol, double lastTradePrice) {
+        return new Quote(symbol, lastTradePrice);
+    }
+
+    private Quote(String symbol, double lastTradedPrice) {
+        this.symbol = symbol;
+        this.lastTradePrice = lastTradedPrice;
+    }
+
     public Quote update(double updatedPrice) {
         return Quote.of(getSymbol(), updatedPrice);
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public double getLastTradePrice() {
+        return lastTradePrice;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Quote [symbol=%s, lastTradePrice=%s]", symbol, lastTradePrice);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (obj == null) {
+            return false;
+        }
+
+        if (!(obj instanceof Quote)) {
+            return false;
+        }
+
+        Quote other = (Quote) obj;
+        if (Double.doubleToLongBits(lastTradePrice) != Double.doubleToLongBits(other.lastTradePrice)) {
+            return false;
+        }
+
+        if (symbol == null && other.symbol != null) {
+            return false;
+        }
+
+        if (symbol != null && !symbol.equals(other.symbol)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        long temp = Double.doubleToLongBits(lastTradePrice);
+
+        int result = 1;
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + ((symbol == null) ? 0 : symbol.hashCode());
+
+        return result;
     }
 }

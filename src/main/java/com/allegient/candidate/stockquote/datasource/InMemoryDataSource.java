@@ -16,7 +16,6 @@
 package com.allegient.candidate.stockquote.datasource;
 
 import java.util.Optional;
-import java.util.function.Supplier;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -33,28 +32,22 @@ public class InMemoryDataSource implements QuoteDataSource {
 
     @Override
     public Optional<Quote> findLatest(String symbol) {
-        Quote quote = getFromCache(symbol);
+        Quote quote = getLatestFromCache(symbol);
         return Optional.of(quote);
     }
 
-    private Quote getFromCache(String symbol) {
-        Optional<Quote> optionalQuote = optionalGet(symbol);
-        Quote updateQuote = updateQuote(symbol, optionalQuote);
+    private Quote getLatestFromCache(String symbol) {
+        Quote nullableQuote = cache.getIfPresent(symbol);
+        Quote updateQuote = updateQuote(symbol, nullableQuote);
         cache.put(symbol, updateQuote);
 
         return updateQuote;
     }
 
-    private Optional<Quote> optionalGet(String symbol) {
-        Quote nullableQuote = cache.getIfPresent(symbol);
-        return Optional.ofNullable(nullableQuote);
-    }
-
-    private Quote updateQuote(String symbol, Optional<Quote> optionalQuote) {
-        return optionalQuote.map(quoter::update).orElseGet(createQuote(symbol));
-    }
-
-    private Supplier<Quote> createQuote(String symbol) {
-        return () -> quoter.create(symbol);
+    private Quote updateQuote(String symbol, Quote nullableQuote) {
+        return Optional
+                .ofNullable(nullableQuote)
+                .map(quote -> quoter.update(quote))
+                .orElseGet(() -> quoter.create(symbol));
     }
 }
