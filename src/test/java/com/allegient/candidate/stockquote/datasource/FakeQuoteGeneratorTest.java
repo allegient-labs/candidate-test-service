@@ -15,7 +15,7 @@
  */
 package com.allegient.candidate.stockquote.datasource;
 
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.core.Is.*;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
@@ -29,8 +29,10 @@ public class FakeQuoteGeneratorTest {
     public void testCreate() {
         FakeQuoteGenerator generator = new FakeQuoteGenerator();
         generator.pricer = mockPricer(999.0);
-
-        assertThat(generator.create("FAKE"), equalTo(Quote.of("FAKE", 999.0)));
+        
+        Quote generatedQuote = generator.create("FAKE");
+        assertThat(generatedQuote.getSymbol(), is("FAKE"));
+        assertThat(generatedQuote.getLastTradePrice(), is(999.0));
     }
 
     @Test
@@ -40,7 +42,9 @@ public class FakeQuoteGeneratorTest {
         FakeQuoteGenerator generator = new FakeQuoteGenerator();
         generator.pricer = mockPricer(quote.getLastTradePrice(), 50.0);
 
-        assertThat(generator.update(quote), equalTo(Quote.of("FAKE", 50.0)));
+        quote = generator.update(quote);
+        assertThat(quote.getSymbol(), is("FAKE"));
+        assertThat(quote.getLastTradePrice(), is(50.0));
     }
 
     private RandomPriceGenerator mockPricer(double initPrice, double updatePrice) {
