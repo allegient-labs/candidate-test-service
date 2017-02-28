@@ -24,14 +24,14 @@ import java.util.stream.Stream;
 public class QuoteList {
 
     public static final String DISCLAIMER = "This service is for testing purposes only.  The information returned is randomly generated and does not represent true information.";
-    private final Stream<Quote> quotes;
+    private final List<Quote> quotes;
 
     public static QuoteList from(Stream<Quote> quotes) {
         return new QuoteList(quotes);
     }
 
     private QuoteList(Stream<Quote> quotes) {
-        this.quotes = quotes;
+        this.quotes = quotes.collect(Collectors.toList());
     }
 
     public String getDisclaimer() {
@@ -43,6 +43,6 @@ public class QuoteList {
     }
 
     public List<Quote> getQuotes() {
-        return quotes.collect(Collectors.toList());
+        return quotes;
     }
 }
