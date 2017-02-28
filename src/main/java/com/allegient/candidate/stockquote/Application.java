@@ -13,29 +13,25 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package com.allegient.candidate.quoteservice.app;
+package com.allegient.candidate.stockquote;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
 
-import com.allegient.candidate.quoteservice.service.MemoryQuoteService;
-import com.allegient.candidate.quoteservice.service.QuoteListService;
-import com.allegient.candidate.quoteservice.service.QuoteService;
+import com.allegient.candidate.stockquote.app.QuoteFinder;
+import com.allegient.candidate.stockquote.datasource.DataSourceConfig;
 
 @SpringBootApplication
+@Import(DataSourceConfig.class)
 public class Application {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
-    
+
     @Bean
-    public QuoteListService quoteListService() {
-        return new QuoteListService();
-    }
-    
-    @Bean
-    public QuoteService quoteService() {
-        return new MemoryQuoteService();
+    public QuoteFinder quoteFinder() {
+        return new QuoteFinder();
     }
 }

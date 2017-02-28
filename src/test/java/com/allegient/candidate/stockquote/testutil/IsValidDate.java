@@ -13,7 +13,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package com.allegient.candidate.quoteservice.testutil;
+package com.allegient.candidate.stockquote.testutil;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -43,7 +43,7 @@ public class IsValidDate extends TypeSafeMatcher<String> {
     protected void describeMismatchSafely(String item, Description mismatchDescription) {
         mismatchDescription.appendText(item + " is an invalid date");
     }
-    
+
     public static IsValidDate isValidDate() {
         return new IsValidDate();
     }

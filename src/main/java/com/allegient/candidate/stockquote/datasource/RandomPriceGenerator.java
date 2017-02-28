@@ -13,10 +13,33 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package com.allegient.candidate.quoteservice.service;
+package com.allegient.candidate.stockquote.datasource;
 
-import com.allegient.candidate.quoteservice.domain.Quote;
+import java.util.concurrent.ThreadLocalRandom;
 
-public interface QuoteService {
-    Quote getQuote(String symbol);
+import org.springframework.beans.factory.annotation.Autowired;
+
+public class RandomPriceGenerator {
+
+    @Autowired
+    ThreadLocalRandom randomizer;
+
+    public double create() {
+        return randomizer.nextDouble(0.0, 100.0);
+    }
+
+    public double update(double oldPrice) {
+        double newPrice = oldPrice + increment();
+
+        if (newPrice < 0) {
+            newPrice = create();
+        }
+
+        return newPrice;
+    }
+
+    private double increment() {
+        return randomizer.nextDouble(-10.0, 20.0);
+    }
+
 }

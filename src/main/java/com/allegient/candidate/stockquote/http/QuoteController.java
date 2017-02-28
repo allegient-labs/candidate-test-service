@@ -13,23 +13,26 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package com.allegient.candidate.quoteservice.service;
+package com.allegient.candidate.stockquote.http;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import com.allegient.candidate.quoteservice.domain.QuoteList;
+import com.allegient.candidate.stockquote.app.QuoteFinder;
+import com.allegient.candidate.stockquote.domain.QuoteList;
 
-public class QuoteListService {
-    
+@RestController
+public class QuoteController {
+
     @Autowired
-    private QuoteService quoteService;
+    private QuoteFinder quoteFinder;
 
-    public QuoteList from(List<String> symbols) {
-        return QuoteList.from(symbols.stream()
-                .map(quoteService::getQuote)
-                .collect(Collectors.toList()));
+    @RequestMapping("/quote")
+    public QuoteList quote(@RequestParam(value = "symbols") List<String> symbols) {
+        return quoteFinder.find(symbols.stream());
     }
 }

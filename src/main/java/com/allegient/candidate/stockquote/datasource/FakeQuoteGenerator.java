@@ -13,24 +13,23 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package com.allegient.candidate.quoteservice.service;
+package com.allegient.candidate.stockquote.datasource;
 
-import java.util.LinkedHashMap;
-import java.util.Map.Entry;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import com.allegient.candidate.quoteservice.domain.Quote;
+import com.allegient.candidate.stockquote.domain.Quote;
 
-public class QuoteCache extends LinkedHashMap<String, Quote> {
-    private static final long serialVersionUID = 6758763368850280897L;
-    private int capacity;
-    
-    public QuoteCache(int capacity) {
-        super(capacity, 0.75f, true);
-        this.capacity = capacity;
+public class FakeQuoteGenerator {
+
+    @Autowired
+    public RandomPriceGenerator pricer;
+
+    public Quote create(String symbol) {
+        return Quote.of(symbol, pricer.create());
     }
 
-    @Override
-    protected boolean removeEldestEntry(Entry<String, Quote> eldest) {
-        return size() > capacity;
+    public Quote update(Quote quote) {
+        double updatedPrice = pricer.update(quote.getLastTradePrice());
+        return quote.update(updatedPrice);
     }
 }
