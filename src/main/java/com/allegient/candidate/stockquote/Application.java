@@ -23,8 +23,11 @@ import org.springframework.context.annotation.Import;
 import com.allegient.candidate.stockquote.app.QuoteFinder;
 import com.allegient.candidate.stockquote.datasource.DataSourceConfig;
 
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
 @SpringBootApplication
 @Import(DataSourceConfig.class)
+@EnableSwagger2
 public class Application {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);

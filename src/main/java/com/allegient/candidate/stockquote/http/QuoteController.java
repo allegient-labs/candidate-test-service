@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,7 +32,7 @@ public class QuoteController {
     @Autowired
     private QuoteFinder quoteFinder;
 
-    @RequestMapping("/quote")
+    @RequestMapping(value="/quote", method={RequestMethod.GET})
     public QuoteList quote(@RequestParam(value = "symbols") List<String> symbols) {
         return quoteFinder.find(symbols.stream());
     }
